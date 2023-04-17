@@ -13,6 +13,8 @@ function Get_RandomNumber(numberOfListItem){
 var last_number = -1;
 
 $(function(){
+	alert("新增功能 : 1.加上圖片\n\n"+
+	"                  2.避免跟上一筆重複");
 	$("input").on("click",function(){
 		var numberOfListItem = $("li").length;
 		var randomChildNumber = Get_RandomNumber(numberOfListItem);

@@ -23,6 +23,13 @@ function loadImages(sources, callback) {
 
 //initial
 $(function(){
+	alert("遊戲規則 : Mountain、Guard、Enemy為障礙物，無法通過；\n\n"+
+		  "                 Pudding、Money、Sword、Meat可拿取，並通過；\n\n"+
+		  "                 Star移動兩步，即使遇到障礙物也可通過，\n\n"+
+		  "                 若Star移動兩步到Star，則可再移動一步，以此類推。\n\n"+
+		  "                 移動到右下角，則通關成功!!!\n\n"+
+		  "   按 \"Start\"，可開始遊戲；按 \"ReStart\"，可重複遊戲。\n\n"+
+		  "   每輪遊戲物品將隨機排列!!!");
 	$("#startbutton").on("click",function(){
 		ctx = $("#myCanvas")[0].getContext("2d");
 		ctx.clearRect(0,0,800,800);
@@ -120,10 +127,9 @@ $(function(){
 	});
 });
 
-//Click Event
-$(document).on("keydown", function(event){
-    console.log(event.code);
-    let targetImg, targetBlock, cutImagePositionX;
+function remove(event)
+{
+	let targetImg, targetBlock, cutImagePositionX;
     targetImg = {
         x:-1,
         y:-1
@@ -142,9 +148,7 @@ $(document).on("keydown", function(event){
         x:-1,
         y:-1
     };
-	
-    event.preventDefault();
-    switch(event.code){
+	switch(event){
         case "ArrowLeft":
             targetImg.x = currentImgMain.x - gridLength;
             targetImg.y = currentImgMain.y;
@@ -210,7 +214,7 @@ $(document).on("keydown", function(event){
                 currentImgMain.y = targetImg.y;
                 break;
             case 3: //Enemy
-				alert("MEET Enemy!");
+				alert("MEET Guard!");
                 break;
 			case 4: //Money
 				currentImgMain.x = targetImg.x;
@@ -231,7 +235,7 @@ $(document).on("keydown", function(event){
 				mapArray[targetBlock.x][targetBlock.y] = 0;
                 break;	
 			case 7: //Big Boss
-				alert("MEET Big Boss!");
+				alert("MEET Enemy!");
                 break;
 			case 2: //pudding
 				currentImgMain.x = targetImg.x;
@@ -245,9 +249,15 @@ $(document).on("keydown", function(event){
 					currentImgMain.x = doubletargetImg.x;
 					currentImgMain.y = doubletargetImg.y;
 					ctx.clearRect(targetImg.x, targetImg.y, gridLength, gridLength);
-					ctx.clearRect(currentImgMain.x, currentImgMain.y, gridLength, gridLength);
 					mapArray[targetBlock.x][targetBlock.y] = 0;
+					if(mapArray[doubletargetBlock.x][doubletargetBlock.y] == 8)
+					{
+						currentImgMain.x = targetImg.x;
+						currentImgMain.y = targetImg.y;
+						remove(event);
+					}
 					mapArray[doubletargetBlock.x][doubletargetBlock.y] = 0;
+					ctx.clearRect(currentImgMain.x, currentImgMain.y, gridLength, gridLength);					
 				}
 				else
 				{
@@ -265,4 +275,11 @@ $(document).on("keydown", function(event){
 
     ctx.drawImage(imgMain, cutImagePositionX, 0, 80, 130, currentImgMain.x, currentImgMain.y, gridLength, gridLength);
 
+}
+
+//Click Event
+$(document).on("keydown", function(event){
+    console.log(event.code);
+    event.preventDefault();
+	remove(event.code);
 });

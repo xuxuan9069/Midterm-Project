@@ -1,4 +1,9 @@
 $(function(){
+	alert("新增功能 : 1.砍掉年份\n\n"+
+	"                  2.可以設定第一天的日期(可重複更改)\n\n"+
+	"                  3.遇到停課，那一列灰色\n\n"+
+	"                  4.單數與雙數列不同顏色\n\n"+
+	"                  5.可新增活動");
 	$("#buttonenterdate").on("click",function(){
 		
 		var firsttime = $("#enterdate").val().split("/");

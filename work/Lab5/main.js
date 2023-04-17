@@ -1,6 +1,10 @@
 let player;
 let currentPlay = 0;
 
+$(function(){
+    alert("新增 \"Pause\" 按鈕!!!");
+});
+
 function onYouTubeIframeAPIReady(){
     console.log("YT Ready!");
     player = new YT.Player("player",{
@@ -25,6 +29,10 @@ function onPlayerReady(event){
     $("#playButton").on("click",function(){
         $("h2").text(player.getVideoData().title);
         player.playVideo();
+    });
+    $("#pauseButton").on("click",function(){
+        $("h2").text(player.getVideoData().title);
+        player.pauseVideo();
     });
 }
 
